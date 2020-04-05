@@ -19,8 +19,6 @@
     return $member;
   }
 
-  function find_member_by_email_password(){}
-
   function find_member_by_email($email) {
     global $db;
 
@@ -55,11 +53,11 @@
     $sql = "INSERT INTO members ";
     $sql .= "(mem_fname, mem_lname, mem_email, mem_pass_hash, mem_level) ";
     $sql .= "VALUES (";
-    $sql .= "'" . db_escape($db, $member['first_name']) . "',";
-    $sql .= "'" . db_escape($db, $member['last_name']) . "',";
-    $sql .= "'" . db_escape($db, $member['email']) . "',";
+    $sql .= "'" . db_escape($db, $member['mem_fname']) . "',";
+    $sql .= "'" . db_escape($db, $member['mem_lname']) . "',";
+    $sql .= "'" . db_escape($db, $member['mem_email']) . "',";
     $sql .= "'" . $hashed_password . "',";
-    $sql .= "'" . db_escape($db, $member['member_level']) . "'";
+    $sql .= "'" . db_escape($db, $member['mem_level']) . "'";
     $sql .= ")";
     $result = mysqli_query($db, $sql);
   
@@ -70,7 +68,7 @@
     echo mysqli_error($db);
     db_disconnect($db);
     exit;
-}
+    }
   }
 
   function update_member($member) {
@@ -100,7 +98,6 @@
     db_disconnect($db);
     exit;
     }
-
   }
 
   function delete_member($id) {
@@ -140,7 +137,7 @@
     }
     
     if(is_blank($member['mem_email'])) {
-      $errors[] = "Name cannot be blank.";
+      $errors[] = "Email cannot be blank.";
     } elseif(!has_valid_email_format($member['mem_email'])) {
       $errors[] = "Email not formatted correctly";
     }
@@ -150,17 +147,17 @@
     } elseif(!has_length($member['mem_level'], ['min' => 0, 'max' => 2])) {
       $errors[] = "Member level issue";
     }
+     return $errors;
+  }
 
-    function insert_code($code) {
+    function insert_progress($visit) {
     global $db;
 
-    $sql = "INSERT INTO members_progress ";
-    $sql .= "(mem_id, brew_id, date_time) ";
+    $sql = "INSERT INTO member_progress ";
+    $sql .= "(mem_id, brew_id) ";
     $sql .= "VALUES (";
-    $sql .= "'" . db_escape($db, $member['first_name']) . "',";
-    $sql .= "'" . db_escape($db, $member['last_name']) . "',";
-    $sql .= "'" . NOW() . "',";
-    $sql .= "'" . db_escape($db, $member['email']) . "'";
+    $sql .= "'" . db_escape($db, $visit['mem_id']) . "',";
+    $sql .= "'" . db_escape($db, $visit['brew_id']) . "'";
     $sql .= ")";
     $result = mysqli_query($db, $sql);
   
@@ -174,20 +171,177 @@
     }
   }
     
-  function brew_by_code($code) {
+  function brew_by_code($brewCode) {
     global $db;
-    $sql = "SELECT brew_id FROM breweries";
-    $sql .="WHERE brew_code='" . db_escape($db, $code) . "'";
+    $sql = "SELECT * FROM breweries ";
+    $sql .="WHERE brew_code='" . db_escape($db, $brewCode) . "'";
     $result = mysqli_query($db, $sql);
-    return $brew_id;
+    
+    $brewID = mysqli_fetch_assoc($result); // find first
+    mysqli_free_result($result);
+    return $brewID;
   }
-    
+
+  function brew1($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 1) . "'";
+    $result = mysqli_query($db, $sql);
   
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew2($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 2) . "'";
+    $result = mysqli_query($db, $sql);
   
-    
-  //SELECT brew_id FROM breweries WHERE brew_code = "party"
-    
-  //INSERT INTO member_progess (mem_id, brew_id, date_time) VALUES (2, 6, now())  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew3($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 3) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew4($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 4) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+  
+  function brew5($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 5) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew6($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 6) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew7($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 7) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
+  function brew8($id) {
+    global $db;
+    $sql = "SELECT * from member_progress ";
+    $sql .="WHERE mem_id='" . db_escape($db, $id) . "' ";
+    $sql .="AND brew_id='" . db_escape($db, 8) . "'";
+    $result = mysqli_query($db, $sql);
+  
+    if(mysqli_num_rows($result) == 1) {
+    return true;
+      
+    } elseif(mysqli_num_rows($result) == 0)  {
+    return false;
+    } 
+    else {
+    echo mysqli_error($db);
+    db_disconnect($db);
+    exit;
+    }
+  }
+
     
     // position
     // Make sure we are working with an integer
@@ -206,6 +360,5 @@
      // $errors[] = "Visible must be true or false.";
     //}
 
-    return $errors;
-  }
+   
 ?>

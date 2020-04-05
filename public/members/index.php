@@ -1,53 +1,155 @@
-<?php require_once('../../private/initialize.php'); ?>
+<?php 
+require_once('../../private/initialize.php');
+$page_title = 'Member Progress'; 
+include(SHARED_PATH . '/header.php');
 
+$id = $_SESSION['mem_id'];
+$member = find_member_by_id($id);
 
-<?php
-
-$members_set = find_all_members();
-
+require_login();
 ?>
 
-<?php $page_title = 'members'; ?>
-<?php include(SHARED_PATH . '/header.php'); ?>
+<h1 id="progh1">Your Progress</h1>
 
-<div id="content">
-  <div class="members listing">
-    <h1>Members</h1>
+<div class="breweries" id="breweries">
+  <ul>
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/ashebrewing.png">
+      </figure>
+      <h2>Asheville Brewing</h2>
+      <div class="visit">
+        <?php 
+            $result = brew1($id);
+            if($result == true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
 
-    <div class="actions">
-      <a class="action" href="<?php echo url_for('/members/new.php'); ?>">Create New Member</a>
-    </div>
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/bhramari_brewing_asheville_2015.png">
+      </figure>
+      <h2>Bhramari Brewing</h2>
+      <div class="visit">
+        <?php $result = brew2($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
 
-  	<table class="list">
-  	  <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-  	    <th>Email</th>
-  	    <th>&nbsp;</th>
-  	    <th>&nbsp;</th>
-        <th>&nbsp;</th>
-  	  </tr>
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/highwire.png">
+      </figure>
+      <h2>HighWire Brewing</h2>
+      <div class="visit">
+        <?php $result = brew3($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
 
-      <?php while($member = mysqli_fetch_assoc($members_set)) { ?>
-        <tr>
-          <td><?php echo h($member['mem_id']); ?></td>
-          <td><?php echo h($member['mem_fname']); ?></td>
-          <td><?php echo h($member['mem_lname']); ?></td>
-          <td><?php echo h($member['mem_email']); ?></td>
-          <td><a class="action" href="<?php echo url_for('/members/show.php?id=' . h(u($member['mem_id']))); ?>">View</a></td>
-          <td><a class="action" href="<?php echo url_for('/members/edit.php?id=' . h(u($member['mem_id']))); ?>">Edit</a></td>
-          <td><a class="action" href="<?php echo url_for('/members/delete.php?id=' . h(u($member['mem_id']))); ?>">Delete</a></td>
-    	  </tr>
-      <?php } ?>
-  	</table>
-  	
-  	<?php
-      mysqli_free_result($members_set);
-    ?>
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/Green-man-logo-300x300.png">
+      </figure>
+      <h2>GreenMan Brewing</h2>
+      <div class="visit">
+        <?php $result = brew4($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
 
-  </div>
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/CVB-Color-Logo-JPEG.jpg">
+      </figure>
+      <h2>Catawba Brewing</h2>
+      <div class="visit">
+        <?php $result = brew5($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
+
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/CMLGkHBgDaTw8fAD3CCBd9dP.jpg">
+      </figure>
+      <h2>Burial Beer Co</h2>
+      <div class="visit">
+        <?php $result = brew6($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
+
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/twinleaf.jpg">
+      </figure>
+      <h2>Twin Leaf Brewing</h2>
+      <div class="visit">
+        <?php $result = brew7($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
+
+    <li class="brewery">
+      <figure>
+        <img src="../../assets/brewlogos/wicked.jpg">
+      </figure>
+      <h2>Wicked-Weed</h2>
+      <div class="visit">
+        <?php $result = brew8($id);
+            if($result === true) {
+              echo "visited";
+              } else {
+              echo "not visited";
+            }
+          ?>
+      </div>
+    </li>
+
+
+    <li>
+      <a id="btnCode" class="action" type="button" href="<?php echo url_for('/members/validate_code.php?id=' . h(u($_SESSION['mem_id']))); ?>">Enter Code</a>
+    </li>
+  </ul>
 
 </div>
+
+
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

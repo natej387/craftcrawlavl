@@ -1,27 +1,59 @@
-<?php
-  if(!isset($page_title)) { echo '- ' . h($page_title); }
-?>
-
 <!doctype html>
 
 <html lang="en">
-  <head>
-    <title>Craft Crawl AVL <?php if(!isset($page_title)) { echo '- ' . h($page_title); } ?></title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/coffee-club.css'); ?>" />
-  </head>
 
-  <body>
-    <header>
-      <h1>Craft Crawl AVL</h1>
-    </header>
+<head>
+  <title>Craft Crawl Asheville
+    <?php if(!isset($page_title)) { echo '- ' . h($page_title); } ?>
+  </title>
+  <meta charset="utf-8">
 
-    <navigation>
-      <ul>
-        <li><a href="<?php echo url_for('/members/index.php'); ?>">Menu</a></li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Brewery List</a></li>
-        <li><a href="#">Map</a></li>
-        <li><a href="#">How to crawl</a></li>
-      </ul>
-    </navigation>
+  <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/coffee-club.css'); ?>" />
+  <script src="<?php echo url_for('/js/jquery-3.4.1.min.js'); ?>"></script>
+  <script src="<?php echo url_for('/js/craft-header.js'); ?>"></script>
+
+</head>
+
+<body class="grid-container">
+  <header class="nav-container">
+
+    <nav class="navbar">
+      <input type="checkbox" id="nav-toggle">
+        <label for="nav-toggle" class="burger-menu" aria-label="burger menu">
+        <img src="../../assets/brewlogos/menu1.png" alt="hamburger icon">.
+      </label>
+      <div id="welcome">
+        <?php
+        if(isset($_SESSION['mem_fname'])) { echo 'Welcome ' . h($_SESSION['mem_fname']); }
+        ?>
+      </div>
+      <a href="#" class="logo">Craft Crawl Asheville</a>
+
+      <div class="navRight">
+        <a href="../../index.php">Home</a>
+
+        <?php if(isset($_SESSION['mem_id']) && $_SESSION['mem_level'] == 'a'): ?>
+        <a class="nav-links" href="admin.php" style="text-decoration:none">Member Admin</a>
+        <?php elseif(isset($_SESSION['mem_id']) && $_SESSION['mem_level'] == 'm'): ?>
+        <a class="nav-links" href="index.php" style="text-decoration:none">My Progress</a>
+        <?php else: ?>
+        <a class="nav-links" href="../../public/breweries.php" style="text-decoration:none">Breweries</a>
+        <?php endif; ?>
+
+        <a href="../../public/members/map.php">Map</a>
+
+        <a href="../../public/members/contact.php">Contact</a>
+
+        <?php if(isset($_SESSION['mem_id'])): ?>
+        <a class="nav-links" href="logout.php" style="text-decoration:none">Log out</a>
+        <?php else: ?>
+        <a class="nav-links" href="../../login.php" style="text-decoration:none">Log in</a>
+        <?php endif; ?>
+
+      </div>
+    </nav>
+
+  </header>
+
+  <main>
+    

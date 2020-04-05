@@ -1,9 +1,9 @@
 <?php
 
 require_once('../../private/initialize.php');
-
-$id = $_GET['id'] ?? '1';
 require_login();
+$id = $_GET['id'] ?? '1';
+
 if(is_post_request()) {
   
 $member = [];
@@ -15,8 +15,9 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
 
 $result = update_member($member);
 if($result === true) {
-  $_SESSION['mem_fname'] = $member['mem_fname'];
-  redirect_to(url_for('members/show.php?id=' . $id));
+  
+  redirect_to(url_for('/members/admin.php'));
+  
 } else {
   $errors = $result;
 
@@ -36,14 +37,14 @@ $member = find_member_by_id($id);
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/members/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/members/admin.php'); ?>">&laquo; Back to List</a>
 
   <div class="member edit">
     <h1>Edit Member</h1>
     
     <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/members/edit.php?id=' . h(u($id))); ?>" method="post">
+    <form action="<?php echo url_for('/members/admin_edit.php?id=' . h(u($id))); ?>" method="post">
       <dl>
         <dt>First Name</dt>
         <dd><input type="text" name="first_name" value="<?php echo h($member['mem_fname']); ?>" /></dd>

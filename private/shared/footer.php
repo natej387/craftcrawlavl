@@ -1,8 +1,9 @@
-<footer>
-  &copy; <?php echo date('Y'); ?> Coffee-Club
-</footer>
+    </main>
+    <footer class="footer">
+    &copy; <?php echo date('Y'); ?> Craft Crawl Asheville
+    </footer>
 
-</body>
+  </body>
 </html>
 
 <?php

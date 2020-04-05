@@ -4,9 +4,11 @@
   function loginMember($member) {
   // Renerating the ID protects the admin from session fixation.
     session_regenerate_id();
-    $_SESSION['mem_id'] = $member['id'];
+    session_start();
+    $_SESSION['mem_id'] = $member['mem_id'];
     $_SESSION['last_login'] = time();
-    $_SESSION['mem_email'] = $member['email'];
+    $_SESSION['mem_fname'] = $member['mem_fname'];
+    $_SESSION['mem_level'] = $member['mem_level'];
     return true;
   }
 
@@ -15,6 +17,7 @@
     unset($_SESSION['mem_id']);
     unset($_SESSION['last_login']);
     unset($_SESSION['mem_email']);
+    unset($_SESSION['mem_fname']);
     // session_destroy(); // optional: destroys the whole session
     return true;
   }
@@ -36,7 +39,7 @@
   // require a valid login before granting acccess to the page.
   function require_login() {
     if(!is_logged_in()) {
-      redirect_to(url_for('../login.php'));
+      redirect_to(url_for('../index.php'));
     } else {
       // Do nothing, let the rest of the page proceed
     }

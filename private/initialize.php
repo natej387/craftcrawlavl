@@ -3,6 +3,9 @@ ob_start();
 
 session_start();
 
+//$_SESSION['mem_id'] = 19;
+//$_SESSION['mem_fname'] = 'John';
+
   // Assign file paths to PHP constants
   // __FILE__ returns the current path to this file
   // dirname() returns the path to the parent directory

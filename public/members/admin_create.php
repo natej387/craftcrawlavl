@@ -1,21 +1,22 @@
 <?php
 
 require_once('../../private/initialize.php');
-$id = $_GET['id'] ?? '1';
+require_login();
 if(is_post_request()) {
 
 $member = [];
 
-$member['first_name'] = $_POST['first_name'] ?? '';
-$member['last_name'] = $_POST['last_name'] ?? '';
-$member['email'] = $_POST['email'] ?? '';
-$member['member_level'] = $_POST['member_level'] ?? '';
-$member['pass_hash'] = $_POST['pass_hash'] ?? '';
+$member['mem_fname'] = $_POST['first_name'] ?? '';
+$member['mem_lname'] = $_POST['last_name'] ?? '';
+$member['mem_email'] = $_POST['email'] ?? '';
+$member['mem_pass_hash'] = $_POST['pass_hash'] ?? '';
+$member['mem_level'] = $_POST['member_level'] ?? '';
 
   $result = insert_member($member);
   if($result === true) {
   $new_id = mysqli_insert_id($db);
-  redirect_to(url_for('/members/show.php?id=' . $new_id));
+  
+  redirect_to('/craftcrawlavl/public/members/admin.php');
   
 } else {
   $errors = $result;
@@ -26,26 +27,26 @@ $member['pass_hash'] = $_POST['pass_hash'] ?? '';
   $member['mem_fname'] = '';
   $member['mem_lname'] = '';
   $member['mem_email'] = '';
-  $member['mem_level'] = '';
   $member['mem_pass_hash'] = '';
+  $member['mem_level'] = '';
 }
 
 ?>
 
 
-<?php $page_title = 'Create Member'; ?>
+<?php $page_title = 'Admin - Create Member'; ?>
 <?php include(SHARED_PATH . '/header.php'); ?>
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/members/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="index.php">&laquo; Back to Login</a>
 
   <div class="member new">
     <h1>Create Member</h1>
     
     <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/members/new.php'); ?>" method="post">
+    <form action="admin_create.php" method="post">
       <dl>
         <dt>First Name</dt>
         <dd><input type="text" name="first_name" value="" /></dd>
@@ -60,7 +61,7 @@ $member['pass_hash'] = $_POST['pass_hash'] ?? '';
       </dl>
       <dl>
         <dt>Member Level</dt>
-        <dd><input type="text" name="member_level" value="" /></dd>
+        <dd><input type="text" name="member_level" value=""  /></dd>
       </dl>
       <dl>
         <dt>Password</dt>
@@ -77,3 +78,6 @@ $member['pass_hash'] = $_POST['pass_hash'] ?? '';
 </div>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
+
+
+
