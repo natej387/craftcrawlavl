@@ -78,7 +78,7 @@
       <p>Buy any beer and you'll receive a unique code to record your progress.</p>
     </section>
     
-    <section id="s4" class="steps">
+    <section onclick="location.href='public/members/index.php'" id="s4" class="steps">
       <img src="assets/brewlogos/iconfinder_gift_inside_question_2766332.png" alt="gift icon">
       <h2>Complete the Crawl</h2>
       <p>Visit every brewery on the list to complete the crawl and receive a commemorative prize. </p>

@@ -2,7 +2,12 @@
 require_once('../../private/initialize.php');
 $page_title = 'Member Progress'; 
 include(SHARED_PATH . '/header.php');
-require_login();
+
+
+if (is_logged_in() == false) {
+  
+  redirect_to(url_for('../login.php')); 
+  } 
 
 $id = $_SESSION['mem_id'];
 $member = find_member_by_id($id);
