@@ -7,8 +7,9 @@
     <?php if(!isset($page_title)) { echo '- ' . h($page_title); } ?>
   </title>
   <meta charset="utf-8">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/coffee-club.css'); ?>" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script src="<?php echo url_for('/js/jquery-3.4.1.min.js'); ?>"></script>
   <script src="<?php echo url_for('/js/craft-header.js'); ?>"></script>
 
@@ -27,7 +28,7 @@
         if(isset($_SESSION['mem_fname'])) { echo 'Welcome ' . h($_SESSION['mem_fname']); }
         ?>
       </div>
-      <a href="#" class="logo">Craft Crawl Asheville</a>
+      <a href="../../index.php" class="logo">Craft Crawl Asheville</a>
 
       <div class="navRight">
         <a href="../../index.php">Home</a>

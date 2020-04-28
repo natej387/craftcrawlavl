@@ -1,25 +1,26 @@
-<?php require_once('../../private/initialize.php'); ?>
-<?php $page_title = 'Contact'; ?>
-<?php include(SHARED_PATH . '/header.php'); ?>
-
-<h1>Contact Us</h1>
+<?php 
+  require_once('../../private/initialize.php');
+  $page_title = 'Contact'; 
+  include(SHARED_PATH . '/header.php');
+?>
 
  <div class="container">
-  <form action="action_page.php">
+    <h1>Contact Us</h1>
+  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <div class="row">
       <div class="col-25">
-        <label for="fname">First Name</label>
+        <label for="name">Name</label>
       </div>
       <div class="col-75">
-        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+        <input type="text" id="name" name="name" placeholder="Name..">
       </div>
     </div>
     <div class="row">
       <div class="col-25">
-        <label for="lname">Last Name</label>
+        <label for="email">Email</label>
       </div>
       <div class="col-75">
-        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+        <input type="text" id="email" name="email" placeholder="Last name..">
       </div>
     </div>
     
@@ -36,6 +37,5 @@
     </div>
   </form>
 </div> 
-
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

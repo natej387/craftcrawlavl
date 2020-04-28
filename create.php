@@ -1,41 +1,45 @@
 <?php
+  require_once('private/initialize.php');
+  $page_title = 'Create Account';
 
-require_once('private/initialize.php');
+  if(is_post_request()) {
+    $errors = [];
+    $member = [];
+    $member['mem_fname'] = $_POST['first_name'] ?? '';
+    $member['mem_lname'] = $_POST['last_name'] ?? '';
+    $member['mem_email'] = $_POST['email'] ?? '';
+    $member['mem_pass_hash'] = $_POST['pass_hash'] ?? '';
+    $member['mem_level'] = $_POST['member_level'] ?? '';
 
-if(is_post_request()) {
-
-$member = [];
-
-$member['mem_fname'] = $_POST['first_name'] ?? '';
-$member['mem_lname'] = $_POST['last_name'] ?? '';
-$member['mem_email'] = $_POST['email'] ?? '';
-$member['mem_pass_hash'] = $_POST['pass_hash'] ?? '';
-$member['mem_level'] = $_POST['member_level'] ?? '';
-
-  $result = insert_member($member);
-  if($result === true) {
-  $_SESSION['mem_id'] = mysqli_insert_id($db);
-  $member = find_member_by_id($_SESSION['mem_id']);
-  loginMember($member);  
-  redirect_to('/craftcrawlavl/public/members/');
+    //checks that member doesn't exist
+    $memAlready = find_member_by_email($member['mem_email']);
+    if($member['mem_email'] == $memAlready['mem_email']) {
+      $errors[] =  "Account has already been made";
   
-} else {
-  $errors = $result;
-  }
-} else {
+    } else {
+      //inserts member and auto logs in
+      $result = insert_member($member);
+  
+      if($result === true) {
+        $_SESSION['mem_id'] = mysqli_insert_id($db);
+        $member = find_member_by_id($_SESSION['mem_id']);
+        loginMember($member);  
+        redirect_to('/craftcrawlavl/public/members/');
+        
+      } else {
+        $errors = $result;
+      }
+    }
+  } else {
   // display the blank form
-  $member = [];
-  $member['mem_fname'] = '';
-  $member['mem_lname'] = '';
-  $member['mem_email'] = '';
-  $member['mem_pass_hash'] = '';
-  $member['mem_level'] = '';
-}
-
+    $member = [];
+    $member['mem_fname'] = '';
+    $member['mem_lname'] = '';
+    $member['mem_email'] = '';
+    $member['mem_pass_hash'] = '';
+    $member['mem_level'] = '';
+  }
 ?>
-
-<?php $page_title = 'Create Member'; ?>
-<?php //include(SHARED_PATH . '/header.php'); ?>
 
 <!doctype html>
 
@@ -43,9 +47,9 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
   <head>
     <title>Craft Crawl Asheville <?php if(!isset($page_title)) { echo '- ' . h($page_title); } ?></title>
     <meta charset="utf-8">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/public/js/jquery-3.4.1.min.js"></script>
     <script src="/public/js/craft-header.js"></script>
-    
     <link rel="stylesheet" media="all" href="public/stylesheets/coffee-club.css" />
   </head>
   <body class="grid-container">
@@ -57,7 +61,7 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
         <img src="assets/brewlogos/menu1.png" alt="">.
         </label>
         
-        <a href="#" class="logo">Craft Crawl Asheville</a>
+        <a href="index.php" class="logo">Craft Crawl Asheville</a>
         <div class="navRight">
             
           <a href="index.php" >Home</a>
@@ -87,15 +91,14 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
         <div class="member new">
           <h1>Create Account</h1>
     
-          <?php echo display_errors($errors); ?>
           <div class="container">
-          <form action="create.php" method="post">
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
             <div class="row">
               <div class="col-25">
                 <label for="first_name">First Name</label>
               </div>
               <div class="col-75">
-                <input type="text" id="first_name" name="first_name" placeholder="First Name..">
+                <input type="text" id="first_name" size="2" maxlength="15" name="first_name" value="<?php if (isset($_POST['first_name'])) echo $_POST['first_name']; ?>" placeholder="First Name.." required>
               </div>
             </div> 
             <div class="row">
@@ -103,7 +106,7 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
                 <label for="last_name">Last Name</label>
               </div>
               <div class="col-75">
-                <input type="text" id="last_name" name="last_name" placeholder="Last Name..">
+                <input type="text" id="last_name" name="last_name" value="<?php if (isset($_POST['last_name'])) echo $_POST['last_name']; ?>" placeholder="Last Name.." required>
               </div>
             </div> 
             <div class="row">
@@ -111,7 +114,7 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
                 <label for="email">Email</label>
               </div>
               <div class="col-75">
-                <input type="text" id="email" name="email" placeholder="Email..">
+                <input type="text" id="email" name="email" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" placeholder="Email.." required>
               </div>
             </div> 
             <div class="row" hidden>
@@ -127,10 +130,12 @@ $member['mem_level'] = $_POST['member_level'] ?? '';
                 <label for="pass_hash">Password</label>
               </div>
               <div class="col-75">
-                <input type="password" id="pass_hash" name="pass_hash" placeholder="Password..">
+                <input type="password" id="pass_hash" name="pass_hash" value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" placeholder="Password.." required>
               </div>
             </div> 
+            <?php echo display_errors($errors); ?>
             <div class="row">
+              <div class="g-recaptcha" data-sitekey="6Le8xsIUAAAAAIWxvumMjQDvocMscl1vmo5xf9jn"></div>
               <input type="submit" name="submit" value="Create Account">
             </div>  
             

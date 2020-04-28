@@ -1,38 +1,32 @@
 <?php
-
 require_once('../../private/initialize.php');
+$page_title = 'Edit Member'; 
+include(SHARED_PATH . '/header.php');
+require_login();
 
 $id = $_GET['id'] ?? '1';
-require_login();
+
 if(is_post_request()) {
   
-$member = [];
-$member['id'] = $id;
-$member['mem_fname'] = $_POST['first_name'] ?? '';
-$member['mem_lname'] = $_POST['last_name'] ?? '';
-$member['mem_email'] = $_POST['email'] ?? '';
-$member['mem_level'] = $_POST['member_level'] ?? '';
+  $member = [];
+  $member['id'] = $id;
+  $member['mem_fname'] = $_POST['first_name'] ?? '';
+  $member['mem_lname'] = $_POST['last_name'] ?? '';
+  $member['mem_email'] = $_POST['email'] ?? '';
+  $member['mem_level'] = $_POST['member_level'] ?? '';
 
-$result = update_member($member);
-if($result === true) {
-  $_SESSION['mem_fname'] = $member['mem_fname'];
-  redirect_to(url_for('members/show.php?id=' . $id));
+  $result = update_member($member);
+  if($result === true) {
+    $_SESSION['mem_fname'] = $member['mem_fname'];
+    redirect_to(url_for('members/show.php?id=' . $id));
+  } else {
+    $errors = $result;
+  }
 } else {
-  $errors = $result;
-
-}
-  
-} else {
-  //redirect_to(url_for('/members/new.php')); 
-
-$member = find_member_by_id($id);
+  $member = find_member_by_id($id);
 }
 
 ?>
-
-
-<?php $page_title = 'Edit Member'; ?>
-<?php include(SHARED_PATH . '/header.php'); ?>
 
 <div id="content">
 

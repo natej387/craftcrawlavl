@@ -1,8 +1,8 @@
 <?php
 
-  // Performs all actions necessary to log in an admin
+  // Performs all actions necessary to log in
   function loginMember($member) {
-  // Renerating the ID protects the admin from session fixation.
+  // Renerating the ID protects from session fixation.
     session_regenerate_id();
     session_start();
     $_SESSION['mem_id'] = $member['mem_id'];
@@ -12,7 +12,7 @@
     return true;
   }
 
-  // Performs all actions necessary to log out an admin
+  // Performs all actions necessary to log out
   function log_out_member() {
     unset($_SESSION['mem_id']);
     unset($_SESSION['last_login']);

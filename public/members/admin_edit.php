@@ -1,67 +1,75 @@
 <?php
+  require_once('../../private/initialize.php');
+  $page_title = 'Edit Member'; 
+  include(SHARED_PATH . '/header.php');
+  require_login();
+  $id = $_GET['id'] ?? '1';
 
-require_once('../../private/initialize.php');
-require_login();
-$id = $_GET['id'] ?? '1';
-
-if(is_post_request()) {
+  if(is_post_request()) {
   
-$member = [];
-$member['id'] = $id;
-$member['mem_fname'] = $_POST['first_name'] ?? '';
-$member['mem_lname'] = $_POST['last_name'] ?? '';
-$member['mem_email'] = $_POST['email'] ?? '';
-$member['mem_level'] = $_POST['member_level'] ?? '';
+    $member = [];
+    $member['id'] = $id;
+    $member['mem_fname'] = $_POST['first_name'] ?? '';
+    $member['mem_lname'] = $_POST['last_name'] ?? '';
+    $member['mem_email'] = $_POST['email'] ?? '';
+    $member['mem_level'] = $_POST['member_level'] ?? '';
 
-$result = update_member($member);
-if($result === true) {
+    $result = update_member($member);
+    if($result === true) {
+      redirect_to(url_for('/members/admin.php'));
   
-  redirect_to(url_for('/members/admin.php'));
+    } else {
+      $errors = $result;
+    }
   
-} else {
-  $errors = $result;
-
-}
-  
-} else {
-  //redirect_to(url_for('/members/new.php')); 
-
-$member = find_member_by_id($id);
-}
-
+  } else {
+    $member = find_member_by_id($id);
+  }
 ?>
-
-
-<?php $page_title = 'Edit Member'; ?>
-<?php include(SHARED_PATH . '/header.php'); ?>
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/members/admin.php'); ?>">&laquo; Back to List</a>
+  
 
-  <div class="member edit">
     <h1>Edit Member</h1>
-    
-    <?php echo display_errors($errors); ?>
-
-    <form action="<?php echo url_for('/members/admin_edit.php?id=' . h(u($id))); ?>" method="post">
-      <dl>
-        <dt>First Name</dt>
-        <dd><input type="text" name="first_name" value="<?php echo h($member['mem_fname']); ?>" /></dd>
-      </dl>
-      <dl>
-        <dt>Last Name</dt>
-          <dd><input type="text" name="last_name" value="<?php echo h($member['mem_lname']); ?>" /></dd>
-      </dl>
-      <dl>
-        <dt>Email</dt>
-          <dd><input type="text" name="email" value="<?php echo h($member['mem_email']); ?>" /></dd>
-      </dl>
-      <dl>
-        <dt>Member Level</dt>
-          <dd><input type="text" name="member_level" value="<?php echo h($member['mem_level']); ?>" /></dd>
-      </dl>
-      <div id="operations">
+    <div class="container member_edit">
+      <a class="back-link" href="<?php echo url_for('/members/admin.php'); ?>">&laquo; Back to List</a>
+   
+    <form action="<?php echo htmlspecialchars(url_for('/members/admin_edit.php?id=' . h(u($id)))); ?>" method="post">
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">First Name</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="first_name" value="<?php echo h($member['mem_fname']); ?>">
+        </div>
+      </div>  
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">Last Name</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="last_name" value="<?php echo h($member['mem_lname']); ?>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">Email</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="email" value="<?php echo h($member['mem_email']); ?>">
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">Member Level</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="member_level" value="<?php echo h($member['mem_level']); ?>">
+        </div>
+      </div>
+      <?php echo display_errors($errors); ?>
+      <div class="row" id="operations">
         <input type="submit" value="Edit Member" />
       </div>
     </form>
