@@ -135,7 +135,7 @@
             </div> 
             <?php echo display_errors($errors); ?>
             <div class="row">
-              <div class="g-recaptcha" data-sitekey="6Le8xsIUAAAAAIWxvumMjQDvocMscl1vmo5xf9jn"></div>
+              <div class="g-recaptcha" data-sitekey=""></div>
               <input type="submit" name="submit" value="Create Account">
             </div>  
             
